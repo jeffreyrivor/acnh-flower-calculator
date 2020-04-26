@@ -17,7 +17,7 @@ genes:
 						<span class="input-group-text">Parent {{ i }}</span>
 					</div>
 					{% for gene in page.genes %}
-					{% assign letter = gene | truncate: 1 %}
+					{% assign letter = gene | slice: 0 %}
 					<select class="form-control" name="parent-{{ i }}-{{ gene }}" required>
 						<option value="" selected disabled>{{ gene }}</option>
 						<option value="3">{{ letter | upcase }}{{ letter | upcase }}</option>
