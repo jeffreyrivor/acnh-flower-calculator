@@ -5,5 +5,3 @@ exclude: ["LICENSE"]
 markdown: GFM
 readme_index:
   remove_orignals: true
-
-theme: jekyll-theme-minimal
