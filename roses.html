@@ -200,8 +200,8 @@ genes:
 
 				for (const [key, value] of Object.entries(results)) {
 					$output.append("<tr><td>" + key + "</td><td>" +
-						(value * 100 / phenotypeCombinations.length) + "% (" + value + " / 256)" +
-						"</td></tr>");
+						(value * 100 / phenotypeCombinations.length) + "% (" + value + " / " + phenotypeCombinations.length +
+						")</td></tr>");
 				}
 
 				e.preventDefault();
