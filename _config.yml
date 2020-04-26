@@ -2,6 +2,11 @@
 name: 'AC:NH Flower Calculator'
 timezone: America/Los_Angeles
 exclude: ["LICENSE"]
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
 markdown: GFM
 readme_index:
   remove_orignals: true
