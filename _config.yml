@@ -1,8 +1,10 @@
 # Jekyll configuration
 name: 'AC:NH Flower Calculator'
 timezone: America/Los_Angeles
-exclude: ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/", 'README.md', 'LICENSE']
+exclude: ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/", 'LICENSE']
 markdown: GFM
+readme_index:
+  remove_orignals: true
 defaults:
   - scope:
       path: ""
