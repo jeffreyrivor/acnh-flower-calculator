@@ -1,1 +1,10 @@
-theme: jekyll-theme-minimal
+# Jekyll configuration
+name: 'AC:NH Flower Calculator'
+timezone: America/Los_Angeles
+exclude: ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/cache/", "vendor/gems/", "vendor/ruby/", 'README.md', 'LICENSE']
+markdown: GFM
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
