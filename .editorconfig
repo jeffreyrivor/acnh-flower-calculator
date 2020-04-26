@@ -6,6 +6,9 @@ indent_style = tab
 insert_final_newline = true
 trim_trailing_whitespace = true
 
+[*.{csv,tsv}]
+insert_final_newline = false
+
 [*.{htm,html}]
 insert_final_newline = false
 
