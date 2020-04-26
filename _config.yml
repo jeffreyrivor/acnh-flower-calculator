@@ -5,3 +5,5 @@ exclude: ["LICENSE"]
 markdown: GFM
 readme_index:
   remove_orignals: true
+plugins:
+  - jekyll-octicons
