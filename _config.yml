@@ -5,8 +5,3 @@ exclude: ["Gemfile", "Gemfile.lock", "node_modules", "vendor/bundle/", "vendor/c
 markdown: GFM
 readme_index:
   remove_orignals: true
-defaults:
-  - scope:
-      path: ""
-    values:
-      layout: "default"
