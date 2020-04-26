@@ -18,7 +18,7 @@ genes:
 					</div>
 					{% for gene in page.genes %}
 					{% assign letter = gene | slice: 0 %}
-					<select class="form-control" name="parent-{{ i }}-{{ gene }}" required>
+					<select class="form-control" name="parent-{{ i }}-{{ gene | downcase }}" required>
 						<option value="" selected disabled>{{ gene }}</option>
 						<option value="3">{{ letter | upcase }}{{ letter | upcase }}</option>
 						<option value="2">{{ letter | upcase }}{{ letter | downcase }}</option>
@@ -32,3 +32,178 @@ genes:
 		</form>
 	</div>
 </div>
+<div class="row">
+	<div class="col">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Color</th>
+					<th>Probability</th>
+				</tr>
+			</thead>
+			<tbody id="output">
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+	(function () {
+		const data = {
+			"rryywwss": "White",
+			"rryywwSs": "White",
+			"rryywwSS": "White",
+			"rryyWwss": "White",
+			"rryyWwSs": "White",
+			"rryyWwSS": "White",
+			"rryyWWss": "Purple",
+			"rryyWWSs": "Purple",
+			"rryyWWSS": "Purple",
+			"rrYywwss": "Yellow",
+			"rrYywwSs": "Yellow",
+			"rrYywwSS": "Yellow",
+			"rrYyWwss": "White",
+			"rrYyWwSs": "White",
+			"rrYyWwSS": "White",
+			"rrYyWWss": "Purple",
+			"rrYyWWSs": "Purple",
+			"rrYyWWSS": "Purple",
+			"rrYYwwss": "Yellow",
+			"rrYYwwSs": "Yellow",
+			"rrYYwwSS": "Yellow",
+			"rrYYWwss": "Yellow",
+			"rrYYWwSs": "Yellow",
+			"rrYYWwSS": "Yellow",
+			"rrYYWWss": "White",
+			"rrYYWWSs": "White",
+			"rrYYWWSS": "White",
+			"Rryywwss": "Red",
+			"RryywwSs": "Pink",
+			"RryywwSS": "White",
+			"RryyWwss": "Red",
+			"RryyWwSs": "Pink",
+			"RryyWwSS": "White",
+			"RryyWWss": "Red",
+			"RryyWWSs": "Pink",
+			"RryyWWSS": "Purple",
+			"RrYywwss": "Orange",
+			"RrYywwSs": "Yellow",
+			"RrYywwSS": "Yellow",
+			"RrYyWwss": "Red",
+			"RrYyWwSs": "Pink",
+			"RrYyWwSS": "White",
+			"RrYyWWss": "Red",
+			"RrYyWWSs": "Pink",
+			"RrYyWWSS": "Purple",
+			"RrYYwwss": "Orange",
+			"RrYYwwSs": "Yellow",
+			"RrYYwwSS": "Yellow",
+			"RrYYWwss": "Orange",
+			"RrYYWwSs": "Yellow",
+			"RrYYWwSS": "Yellow",
+			"RrYYWWss": "Red",
+			"RrYYWWSs": "Pink",
+			"RrYYWWSS": "White",
+			"RRyywwss": "Black",
+			"RRyywwSs": "Red",
+			"RRyywwSS": "Pink",
+			"RRyyWwss": "Black",
+			"RRyyWwSs": "Red",
+			"RRyyWwSS": "Pink",
+			"RRyyWWss": "Black",
+			"RRyyWWSs": "Red",
+			"RRyyWWSS": "Pink",
+			"RRYywwss": "Orange",
+			"RRYywwSs": "Orange",
+			"RRYywwSS": "Yellow",
+			"RRYyWwss": "Red",
+			"RRYyWwSs": "Red",
+			"RRYyWwSS": "White",
+			"RRYyWWss": "Black",
+			"RRYyWWSs": "Red",
+			"RRYyWWSS": "Purple",
+			"RRYYwwss": "Orange",
+			"RRYYwwSs": "Orange",
+			"RRYYwwSS": "Yellow",
+			"RRYYWwss": "Orange",
+			"RRYYWwSs": "Orange",
+			"RRYYWwSS": "Yellow",
+			"RRYYWWss": "Blue",
+			"RRYYWWSs": "Red",
+			"RRYYWWSS": "White"
+		}
+
+		function* generateVariations(p) {
+			switch (p) {
+				case 0:
+					yield* [0, 0];
+					break;
+
+				case 2:
+					yield* [1, 0];
+					break;
+
+				case 3:
+					yield* [1, 1];
+					break;
+			}
+		}
+
+		function* generateGenotypeVariations(p1, p2, g) {
+			for (const i of generateVariations(p1)) {
+				for (const j of generateVariations(p2)) {
+					var v = (i << 1) | j;
+					switch (v) {
+						case 0:
+							yield g.toLowerCase() + g.toLowerCase();
+							break;
+
+						case 1:
+						case 2:
+							yield g.toUpperCase() + g.toLowerCase();
+							break;
+
+						case 3:
+							yield g.toUpperCase() + g.toUpperCase();
+							break;
+					}
+				}
+			}
+		}
+
+		function* generateGenotypeVariationsFromElements(f, g) {
+			yield* generateGenotypeVariations(
+				parseInt(f.elements['parent-1-' + g].value, 10),
+				parseInt(f.elements['parent-2-' + g].value, 10),
+				g.substring(0, 1));
+		}
+
+		window.addEventListener('DOMContentLoaded', function () {
+			$("#parents").submit(function (e) {
+				const form = this;
+				const results = {};
+				const $output = $("#output").empty();
+
+				for (const r of generateGenotypeVariationsFromElements(form, 'red')) {
+					for (const y of generateGenotypeVariationsFromElements(form, 'yellow')) {
+						for (const w of generateGenotypeVariationsFromElements(form, 'white')) {
+							for (const s of generateGenotypeVariationsFromElements(form, 'shade')) {
+								const phenotype = data[r + y + w + s];
+								results[phenotype] |= 0;
+								results[phenotype]++;
+							}
+						}
+					}
+				}
+
+				for (const [key, value] of Object.entries(results)) {
+					$output.append("<tr><td>" + key + "</td><td>" +
+						(value * 100 / 256) + "% (" + value + " / 256)" +
+						"</td></tr>");
+				}
+
+				e.preventDefault();
+				return false;
+			});
+		});
+	})();
+</script>
