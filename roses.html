@@ -1,0 +1,34 @@
+---
+title: Roses
+genes:
+- Red
+- Yellow
+- White
+- Shade
+---
+<div class="row mb-3">
+	<div class="col">
+		<form id="parents" action="" method="get">
+			{% for i in (1..2) %}
+			<fieldset class="mb-3" name="parent-{{ i }}">
+				<legend class="sr-only">Parent {{ i }}</legend>
+				<div class="input-group">
+					<div class="input-group-prepend" aria-hidden="true">
+						<span class="input-group-text">Parent {{ i }}</span>
+					</div>
+					{% for gene in page.genes %}
+					{% assign letter = gene | truncate: 1 %}
+					<select class="form-control" name="parent-{{ i }}-{{ gene }}" required>
+						<option value="" selected disabled>{{ gene }}</option>
+						<option value="3">{{ letter | upcase }}{{ letter | upcase }}</option>
+						<option value="2">{{ letter | upcase }}{{ letter | downcase }}</option>
+						<option value="0">{{ letter | downcase }}{{ letter | downcase }}</option>
+					</select>
+					{% endfor %}
+				</div>
+			</fieldset>
+			{% endfor %}
+			<button type="submit" class="btn btn-primary">Compute</button>
+		</form>
+	</div>
+</div>
