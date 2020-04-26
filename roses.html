@@ -170,11 +170,13 @@ genes:
 			}
 		}
 
-		function* generateGenotypeVariationsFromElements(f, g) {
-			yield* generateGenotypeVariations(
-				parseInt(f.elements['parent-1-' + g].value, 10),
-				parseInt(f.elements['parent-2-' + g].value, 10),
-				g.substring(0, 1));
+		function* generateGenotypeVariationsFromParents(p1, p2) {
+			for (let i = 0; i < p1.elements.length; i++) {
+				yield generateGenotypeVariations(
+					parseInt(p1.elements[i].value, 10),
+					parseInt(p2.elements[i].value, 10),
+					p1.elements[i].name.replace(p1.name, '').substring(1, 2));
+			}
 		}
 
 		window.addEventListener('DOMContentLoaded', function () {
@@ -183,21 +185,22 @@ genes:
 				const results = {};
 				const $output = $("#output").empty();
 
-				for (const r of generateGenotypeVariationsFromElements(form, 'red')) {
-					for (const y of generateGenotypeVariationsFromElements(form, 'yellow')) {
-						for (const w of generateGenotypeVariationsFromElements(form, 'white')) {
-							for (const s of generateGenotypeVariationsFromElements(form, 'shade')) {
-								const phenotype = data[r + y + w + s];
-								results[phenotype] |= 0;
-								results[phenotype]++;
-							}
-						}
-					}
+				const genotypesVariations = Array.from(
+					generateGenotypeVariationsFromParents(form.elements["parent-1"], form.elements["parent-2"]),
+					x => Array.from(x));
+
+				const phenotypeCombinations = genotypesVariations.reduce(
+					(current, next) => current.flatMap(c => next.map(n => c + n)));
+
+				for (const c in phenotypeCombinations) {
+					const phenotype = data[c];
+					results[phenotype] |= 0;
+					results[phenotype]++;
 				}
 
 				for (const [key, value] of Object.entries(results)) {
 					$output.append("<tr><td>" + key + "</td><td>" +
-						(value * 100 / 256) + "% (" + value + " / 256)" +
+						(value * 100 / phenotypeCombinations.length) + "% (" + value + " / 256)" +
 						"</td></tr>");
 				}
 
