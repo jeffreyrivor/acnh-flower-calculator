@@ -192,7 +192,7 @@ genes:
 				const phenotypeCombinations = genotypesVariations.reduce(
 					(current, next) => current.flatMap(c => next.map(n => c + n)));
 
-				for (const c in phenotypeCombinations) {
+				for (const c of phenotypeCombinations) {
 					const phenotype = data[c];
 					results[phenotype] |= 0;
 					results[phenotype]++;
