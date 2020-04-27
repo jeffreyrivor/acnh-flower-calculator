@@ -17,10 +17,10 @@
 				<li class="navbar-link d-md-none{% if page.url == '/' %} active{% endif %}">
 					<a class="nav-link" href="{{ "/" | relative_url }}">Home</a>
 				</li>
-				{% for pageItem in site.html_pages | where_exp: "item", "item.url != '/'" | sort: "title" %}
-				<li class="navbar-link{% if page.url == pageItem.url %} active{% endif %}">
-					<a class="nav-link" href="{{ pageItem.url | relative_url }}">{{ pageItem.title }}</a>
-					{{ pageItem | inspect }}
+				{% assign pages = site.html_pages | where_exp: "p", "p.url != '/'" | sort: "title" %}
+				{% for p in pages %}
+				<li class="navbar-link{% if page.url == p.url %} active{% endif %}">
+					<a class="nav-link" href="{{ p.url | relative_url }}">{{ p.title }}</a>
 				</li>
 				{% endfor %}
 			</ul>
