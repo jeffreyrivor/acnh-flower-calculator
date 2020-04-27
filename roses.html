@@ -131,14 +131,14 @@ genes:
 					colors.set(phenotype, (colors.get(phenotype) | 0) + 1);
 				}
 
-				for (const [key, value] of Object.entries(genotypes)) {
+				for (const [key, value] of genotypes) {
 					let datum = data.get(key);
 					$genotypes.append("<tr><td>" + datum.genotype + "(" + datum.phenotype + ")</td><td>" +
 						(value * 100 / genotypeCombinations.length) + "% (" + value + " / " + genotypeCombinations.length +
 						")</td></tr>");
 				}
 
-				for (const [key, value] of Object.entries(colors)) {
+				for (const [key, value] of colors) {
 					$colors.append("<tr><td>" + key + "</td><td>" +
 						(value * 100 / genotypeCombinations.length) + "% (" + value + " / " + genotypeCombinations.length +
 						")</td></tr>");
