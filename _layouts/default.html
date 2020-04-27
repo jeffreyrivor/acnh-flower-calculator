@@ -20,6 +20,7 @@
 				{% for pageItem in site.html_pages | where_exp: "item", "item.url != '/'" | sort: "title" %}
 				<li class="navbar-link{% if page.url == pageItem.url %} active{% endif %}">
 					<a class="nav-link" href="{{ pageItem.url | relative_url }}">{{ pageItem.title }}</a>
+					{{ pageItem | inspect }}
 				</li>
 				{% endfor %}
 			</ul>
