@@ -42,7 +42,19 @@ genes:
 					<th>Probability</th>
 				</tr>
 			</thead>
-			<tbody id="output">
+			<tbody id="colors">
+			</tbody>
+		</table>
+	</div>
+	<div class="col">
+		<table class="table">
+			<thead>
+				<tr>
+					<th>Genotype (Color)</th>
+					<th>Probability</th>
+				</tr>
+			</thead>
+			<tbody id="genotypes">
 			</tbody>
 		</table>
 	</div>
@@ -51,13 +63,17 @@ genes:
 	(function () {
 		const data = new Map([
 			//{% assign flower = page.flower | downcase %}
-			//{% for phenotypes in site.data[flower] %}
+			//{% for genotypes in site.data[flower] %}
 			[
 				//{% for gene in page.genes %}
-				({{ phenotypes[gene] }} << {{ forloop.rindex0 | times: 2 }}) {% if forloop.last == false %}|{% else %},{% endif %}
+				{{ genotypes['Value'] }},
 				//{% endfor %}
-				"{{ phenotypes['Phenotype'] }}"
-			]{% if forloop.last == false %},{% endif %}
+				{
+					phenotype: "{{ genotypes['Phenotype'] }}",
+					genotype: "{{ genotypes['Genotype'] }}"
+				}
+			]
+			/*{% if forloop.last == false %}*/,/*{% endif %}*/
 			//{% endfor %}
 		]);
 
@@ -98,25 +114,35 @@ genes:
 		window.addEventListener('DOMContentLoaded', function () {
 			$("#parents").submit(function (e) {
 				const form = this;
-				const results = {};
-				const $output = $("#output").empty();
+				const colors = new Map();
+				const genotypes = new Map();
+				const $colors = $("#colors").empty();
+				const $genotypes = $("#genotypes").empty();
 
 				const genotypesVariations = Array.from(
 					generateGenotypeVariationsFromParents(form.elements["parent-1"], form.elements["parent-2"]),
 					x => Array.from(x));
 
-				const phenotypeCombinations = genotypesVariations.reduce(
+				const genotypeCombinations = genotypesVariations.reduce(
 					(current, next) => current.flatMap(c => next.map(n => (c << 2) | n)));
 
-				for (const c of phenotypeCombinations) {
-					const phenotype = data.get(c);
-					results[phenotype] |= 0;
-					results[phenotype]++;
+				for (const c of genotypeCombinations) {
+					genotypes.set(c, (genotypes.get(c) | 0) + 1);
+
+					const phenotype = data.get(c).phenotype;
+					colors.set(phenotype, (colors.get(phenotype) | 0) + 1);
 				}
 
-				for (const [key, value] of Object.entries(results)) {
-					$output.append("<tr><td>" + key + "</td><td>" +
-						(value * 100 / phenotypeCombinations.length) + "% (" + value + " / " + phenotypeCombinations.length +
+				for (const [key, value] of Object.entries(genotypes)) {
+					let datum = data.get(key);
+					$genotypes.append("<tr><td>" + datum.genotype + "(" + datum.phenotype + ")</td><td>" +
+						(value * 100 / genotypeCombinations.length) + "% (" + value + " / " + genotypeCombinations.length +
+						")</td></tr>");
+				}
+
+				for (const [key, value] of Object.entries(colors)) {
+					$colors.append("<tr><td>" + key + "</td><td>" +
+						(value * 100 / genotypeCombinations.length) + "% (" + value + " / " + genotypeCombinations.length +
 						")</td></tr>");
 				}
 
