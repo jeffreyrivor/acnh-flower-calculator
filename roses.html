@@ -133,7 +133,7 @@ genes:
 
 				for (const [key, value] of genotypes) {
 					let datum = data.get(key);
-					$genotypes.append("<tr><td>" + datum.genotype + "(" + datum.phenotype + ")</td><td>" +
+					$genotypes.append("<tr><td>" + datum.genotype + " (" + datum.phenotype + ")</td><td>" +
 						(value * 100 / genotypeCombinations.length) + "% (" + value + " / " + genotypeCombinations.length +
 						")</td></tr>");
 				}
