@@ -65,9 +65,7 @@ genes:
 			//{% assign flower = page.flower | downcase %}
 			//{% for genotypes in site.data[flower] %}
 			[
-				//{% for gene in page.genes %}
 				{{ genotypes['Value'] }},
-				//{% endfor %}
 				{
 					phenotype: "{{ genotypes['Phenotype'] }}",
 					genotype: "{{ genotypes['Genotype'] }}"
