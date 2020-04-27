@@ -17,6 +17,11 @@
 				<li class="navbar-link d-md-none{% if page.url == '/' %} active{% endif %}">
 					<a class="nav-link" href="{{ "/" | relative_url }}">Home</a>
 				</li>
+				{% for pageItem in site.pages | sort: "title" %}
+				<li class="navbar-link{% if page.url == pageItem.url %} active{% endif %}">
+					<a class="nav-link" href="{{ pageItem.url | relative_url }}">{{ pageItem.title }}</a>
+				</li>
+				{% endfor %}
 			</ul>
 			<ul class="navbar-nav">
 				<li class="navbar-link">
