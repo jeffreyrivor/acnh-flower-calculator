@@ -61,18 +61,8 @@ genes:
 </div>
 <script type="text/javascript">
 	(function () {
-		const data = new Map([
-			//{% assign flower = page.flower | downcase %}
-			//{% for genotypes in site.data[flower] %}
-			[
-				{{ genotypes['Value'] }},
-				{
-					phenotype: "{{ genotypes['Phenotype'] }}",
-					genotype: "{{ genotypes['Genotype'] }}"
-				}
-			]
-			/*{% if forloop.last == false %}*/,/*{% endif %}*/
-			//{% endfor %}
+		const data = new Map([//{% assign flower = page.flower | downcase %}{% for genotypes in site.data[flower] %}
+			[ {{ genotypes['Value'] }}, { phenotype: "{{ genotypes['Phenotype'] }}", genotype: "{{ genotypes['Genotype'] }}" } ],//{% endfor %}
 		]);
 
 		function* generateVariations(p) {
